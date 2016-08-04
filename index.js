@@ -1,22 +1,67 @@
-const list_of_urls = ["www.teamwork.com", "engineroom.teamwork.com", "teamwork.com/blog"];
+const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "engineroom.teamwork.com", "teamwork.com/blog"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
+var objects = [];
 
-function init() {
+if (window.addEventListener) window.addEventListener("load", autorun, false);
+else if (window.attachEvent) window.attachEvent("onload", autorun);
+else window.onload = autorun;
 
 
+function autorun() {
 
+    createCookie("Teamwork", btoa(textToJson(setObject())), 2);
+    console.log(decode(getCookie("Teamwork")));
+    editObject("robertgabriel")
 }
+
+
+function setObject() {
+
+    for (var i = 0; i < list_of_urls.length; i++) {
+        if (getCurrentUrl().indexOf(list_of_urls[i]) != -1) {
+            objects[i] = "{domain:" + list_of_urls[i] + ", url:" + getCurrentUrl() + "}";
+        }
+    }
+    return objects;
+}
+
+function editObject(domain) {
+    console.log(Object.keys(objects).length);
+
+    for (var i = 0; i < objects.length; i++) {
+        console.log(objects['domain']);
+        if (objects[i].domain === domain) {
+            objects[i].url = "ss";
+            break;
+        }
+    }
+    console.log(objects);
+}
+
+function encode(data) {
+    return btoa(data);
+}
+
+function decode(data) {
+    return atob(data);
+}
+
 
 function createCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
+    console.log("Created : " + cname + "with value " + cvalue);
 }
 
-function updateCookie() {
 
+
+function textToJson(data) {
+    return JSON.stringify(data);
 }
+
+
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -33,23 +78,23 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
-    var username = getCookie("username");
+function checkCookie(value) {
+    var username = getCookie(value);
     if (username != "") {
         alert("Welcome again " + username);
     } else {
         username = prompt("Please enter your name:", "");
         if (username != "" && username != null) {
-            setCookie("username", username, 365);
+            createCookie("username", username, 365);
         }
     }
 }
 
 
-
-function clearDiv(id) {
-
+function getCurrentUrl() {
+    return window.location.href;
 }
+
 
 // -- Function Name : regexUrlextensioncheck(extension
 // -- Params : extension (example : signup)
