@@ -6,7 +6,11 @@ if (window.addEventListener) window.addEventListener("load", autorun, false);
 else if (window.attachEvent) window.attachEvent("onload", autorun);
 else window.onload = autorun;
 
-
+// -- Function Name : autorun
+// -- Params : none
+// -- Purpose : Starts to create the cookie on loads
+// -- TODO: Update value of the cookie based on the information. thats changed.
+// -- TODO : Set triggers for different pages. Example
 function autorun() {
 
     createCookie("Teamwork", btoa(textToJson(setObject())), 2);
@@ -15,6 +19,9 @@ function autorun() {
 }
 
 
+// -- Function Name : setObject
+// -- Params : None
+// -- Purpose : creates the objects and values
 function setObject() {
 
     for (var i = 0; i < list_of_urls.length; i++) {
@@ -25,6 +32,10 @@ function setObject() {
     return objects;
 }
 
+
+// -- Function Name : edit a object value
+// -- Params : String and or object
+// -- Purpose : edit a object of value a domain
 function editObject(domain) {
     console.log(Object.keys(objects).length);
 
@@ -38,15 +49,24 @@ function editObject(domain) {
     console.log(objects);
 }
 
+
+// -- Function Name : decode
+// -- Params : string
+// -- Purpose : encodes a string as btoa
 function encode(data) {
     return btoa(data);
 }
 
+// -- Function Name : decode
+// -- Params : data
+// -- Purpose : decodes btoa encoded data
 function decode(data) {
     return atob(data);
 }
 
-
+// -- Function Name : Create Cookie
+// -- Params : data / object
+// -- Purpose : Makes a string into json
 function createCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -56,13 +76,17 @@ function createCookie(cname, cvalue, exdays) {
 }
 
 
-
+// -- Function Name : textToJson
+// -- Params : data / object
+// -- Purpose : Makes a string into json
 function textToJson(data) {
     return JSON.stringify(data);
 }
 
 
-
+// -- Function Name : getCookie
+// -- Params : cooke name
+// -- Purpose : gets the cookie value
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -78,6 +102,10 @@ function getCookie(cname) {
     return "";
 }
 
+
+// -- Function Name : checkCookie
+// -- Params : value
+// -- Purpose : check the current cookie
 function checkCookie(value) {
     var username = getCookie(value);
     if (username != "") {
@@ -91,6 +119,9 @@ function checkCookie(value) {
 }
 
 
+// -- Function Name : getCurrentUrl
+// -- Return : string
+// -- Purpose : Return the current url
 function getCurrentUrl() {
     return window.location.href;
 }
