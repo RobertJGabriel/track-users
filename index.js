@@ -1,4 +1,4 @@
-const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "engineroom.teamwork.com", "teamwork.com/blog"];
+const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users","engineroom.teamwork.com", "teamwork.com/blog"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
 var objects = [];
 
@@ -14,9 +14,18 @@ else window.onload = autorun;
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
 
-    createCookie("Teamwork", btoa(textToJson(setObject())), 2);
+ delete_cookie("Teamwork");
+
+console.log(checkCookie("Teamwork"));
+    if (checkCookie("Teamwork")) {
+      console.log("Edit");
+        editObject("Documents")
+    } else {
+        console.log("Create");
+        createCookie("Teamwork", btoa(textToJson(setObject())), 2);
+    }
+
     console.log(decode(getCookie("Teamwork")));
-    editObject("Documents")
 }
 
 
@@ -24,17 +33,28 @@ function autorun() {
 // -- Params : None
 // -- Purpose : creates the objects and values
 function setObject() {
-    var information = new Object();
+
     for (var i = 0; i < list_of_urls.length; i++) {
         if (getCurrentUrl().indexOf(list_of_urls[i]) != -1) {
+            var information = new Object();
             information.domain = list_of_urls[i];
             information.url = getCurrentUrl();
-            objects[i] = information;
+            information.date = getDate();
+            objects.push(information);
         }
     }
     return objects;
 }
 
+
+function getDate(){
+  var d = new Date("July 21, 1983 01:15:00");
+return d.getTime();
+}
+
+function delete_cookie( name ) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
 // -- Function Name : edit a object value
 // -- Params : String and or object
@@ -43,7 +63,7 @@ function editObject(domain) {
     for (var i = 0; i < objects.length; i++) {
         console.log(objects[1].domain);
         if (objects[i].domain === domain) {
-            objects[i].url = getCurrentUrl();
+            objects[i].url = "batman";
             break;
         }
     }
@@ -107,14 +127,11 @@ function getCookie(cname) {
 // -- Params : value
 // -- Purpose : check the current cookie
 function checkCookie(value) {
-    var username = getCookie(value);
-    if (username != "") {
-        alert("Welcome again " + username);
+    var cookie_name = getCookie(value);
+    if (cookie_name != "" ) {
+        return true;
     } else {
-        username = prompt("Please enter your name:", "");
-        if (username != "" && username != null) {
-            createCookie("username", username, 365);
-        }
+        return false;
     }
 }
 
