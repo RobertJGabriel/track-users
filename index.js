@@ -14,16 +14,16 @@ else window.onload = autorun;
 // -- Purpose : Starts to create the cookie on loads
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
-    delete_cookie(master_domain.replace(/\./g, ''));
+  ///  delete_cookie(master_domain.replace(/\./g, ''));
     if (checkCookie(master_domain.replace(/\./g, ''))) {
-        console.log("Edit");
+        localDevelment ? console.log("Edit"): null;
         objects = string_to_object(decode(getCookie(master_domain.replace(/\./g, ''))));
         editObject("Documents")
     } else {
-        console.log("Create");
+      localDevelment ?   console.log("Create"):null;
         createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(setObject())), 2, master_domain);
     }
-    console.log(decode(getCookie(master_domain.replace(/\./g, ''))));
+  localDevelment ?   console.log(decode(getCookie(master_domain.replace(/\./g, '')))): null;
 }
 
 
@@ -64,13 +64,13 @@ function delete_cookie(name) {
 // -- Purpose : edit a object of value a domain
 function editObject(domain) {
     for (var i = 0; i < objects.length; i++) {
-        console.log(objects[1].domain);
+      localDevelment ?   console.log(objects[1].domain) :null;
         if (objects[i].domain === domain) {
             objects[i].url = getCurrentUrl();
             break;
         }
     }
-    console.log(objects);
+    localDevelment ? console.log(objects) :null;
     createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(objects)), 2, master_domain);
 }
 
@@ -106,7 +106,7 @@ function createCookie(cname, cvalue, exdays, domain) {
     var expires = "expires=" + d.toUTCString();
 
     document.cookie =localDevelment?  cname + "=" + cvalue + "; expires=" + expires :cname + "=" + cvalue + "; expires=" + expires + ";domain=" + domain ;
-    console.log("Created : " + cname + "with value " + cvalue);
+    localDevelment ? console.log("Created : " + cname + "with value " + cvalue) :null;
 }
 
 
