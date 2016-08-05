@@ -1,4 +1,4 @@
-const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users","engineroom.teamwork.com", "teamwork.com/blog"];
+const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users", "engineroom.teamwork.com", "teamwork.com/blog"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
 var objects = [];
 
@@ -14,18 +14,18 @@ else window.onload = autorun;
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
 
- delete_cookie("Teamwork");
+  //  delete_cookie("Teamwork");
 
-console.log(checkCookie("Teamwork"));
+    console.log(checkCookie("Teamwork"));
     if (checkCookie("Teamwork")) {
-      console.log("Edit");
+        console.log("Edit");
+        objects = string_to_object(decode(getCookie("Teamwork")));
         editObject("Documents")
     } else {
         console.log("Create");
         createCookie("Teamwork", btoa(textToJson(setObject())), 2);
     }
 
-    console.log(decode(getCookie("Teamwork")));
 }
 
 
@@ -33,27 +33,33 @@ console.log(checkCookie("Teamwork"));
 // -- Params : None
 // -- Purpose : creates the objects and values
 function setObject() {
-
     for (var i = 0; i < list_of_urls.length; i++) {
         if (getCurrentUrl().indexOf(list_of_urls[i]) != -1) {
             var information = new Object();
             information.domain = list_of_urls[i];
             information.url = getCurrentUrl();
             information.date = getDate();
+            console.log(information);
             objects.push(information);
         }
     }
     return objects;
 }
 
-
-function getDate(){
-  var d = new Date("July 21, 1983 01:15:00");
-return d.getTime();
+// -- Function Name : get_date
+// -- Params : none
+// -- Purpose : get current date : example : Fri Aug 05 2016
+function getDate() {
+    var d = new Date();
+    return d.toDateString();
 }
 
-function delete_cookie( name ) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+// -- Function Name : delete_cookie
+// -- Params : string
+// -- Purpose : deletes cookie
+function delete_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 // -- Function Name : edit a object value
@@ -67,6 +73,16 @@ function editObject(domain) {
             break;
         }
     }
+    console.log(objects)
+    createCookie("Teamwork", btoa(textToJson(objects)), 2);
+}
+
+// -- Function Name : string_to_object
+// -- Params : string
+// -- Purpose :  converts a string to a object
+function string_to_object(string) {
+    var myobj = JSON.parse(string);
+    return myobj;
 }
 
 
@@ -128,7 +144,7 @@ function getCookie(cname) {
 // -- Purpose : check the current cookie
 function checkCookie(value) {
     var cookie_name = getCookie(value);
-    if (cookie_name != "" ) {
+    if (cookie_name != "") {
         return true;
     } else {
         return false;
