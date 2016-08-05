@@ -1,5 +1,6 @@
 const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users", "engineroom.teamwork.com", "teamwork.com/blog"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
+const master_domain = "teamwork.com";
 var objects = [];
 
 if (window.addEventListener) window.addEventListener("load", autorun, false);
@@ -10,22 +11,18 @@ else window.onload = autorun;
 // -- Function Name : autorun
 // -- Params : none
 // -- Purpose : Starts to create the cookie on loads
-// -- TODO: Update value of the cookie based on the information. thats changed.
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
 
-  //  delete_cookie("Teamwork");
-
-    console.log(checkCookie("Teamwork"));
     if (checkCookie("Teamwork")) {
         console.log("Edit");
         objects = string_to_object(decode(getCookie("Teamwork")));
         editObject("Documents")
     } else {
         console.log("Create");
-        createCookie("Teamwork", btoa(textToJson(setObject())), 2);
+        createCookie("Teamwork", btoa(textToJson(setObject())), 2,master_domain);
     }
-
+    console.log(decode(getCookie("Teamwork")))
 }
 
 
@@ -34,17 +31,15 @@ function autorun() {
 // -- Purpose : creates the objects and values
 function setObject() {
     for (var i = 0; i < list_of_urls.length; i++) {
-        if (getCurrentUrl().indexOf(list_of_urls[i]) != -1) {
-            var information = new Object();
-            information.domain = list_of_urls[i];
-            information.url = getCurrentUrl();
-            information.date = getDate();
-            console.log(information);
-            objects.push(information);
-        }
+        var information = new Object();
+        information.domain = list_of_urls[i];
+        information.url = getCurrentUrl().indexOf(list_of_urls[i]) != -1 ? getCurrentUrl() : null;
+        information.date = getCurrentUrl().indexOf(list_of_urls[i]) != -1 ? getDate() : null;
+        objects.push(information);
     }
     return objects;
 }
+
 
 // -- Function Name : get_date
 // -- Params : none
@@ -62,6 +57,7 @@ function delete_cookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+
 // -- Function Name : edit a object value
 // -- Params : String and or object
 // -- Purpose : edit a object of value a domain
@@ -69,12 +65,12 @@ function editObject(domain) {
     for (var i = 0; i < objects.length; i++) {
         console.log(objects[1].domain);
         if (objects[i].domain === domain) {
-            objects[i].url = "batman";
+            objects[i].url = getCurrentUrl();
             break;
         }
     }
-    console.log(objects)
-    createCookie("Teamwork", btoa(textToJson(objects)), 2);
+    console.log(objects);
+    createCookie("Teamwork", btoa(textToJson(objects)), 2,master_domain);
 }
 
 // -- Function Name : string_to_object
@@ -103,11 +99,11 @@ function decode(data) {
 // -- Function Name : Create Cookie
 // -- Params : data / object
 // -- Purpose : Makes a string into json
-function createCookie(cname, cvalue, exdays) {
+function createCookie(cname, cvalue, exdays,domain) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    document.cookie = cname + "=" + cvalue + "; expires=" + expires + ";domain=" + domain;
     console.log("Created : " + cname + "with value " + cvalue);
 }
 
