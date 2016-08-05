@@ -6,6 +6,7 @@ if (window.addEventListener) window.addEventListener("load", autorun, false);
 else if (window.attachEvent) window.attachEvent("onload", autorun);
 else window.onload = autorun;
 
+
 // -- Function Name : autorun
 // -- Params : none
 // -- Purpose : Starts to create the cookie on loads
@@ -15,7 +16,7 @@ function autorun() {
 
     createCookie("Teamwork", btoa(textToJson(setObject())), 2);
     console.log(decode(getCookie("Teamwork")));
-    editObject("robertgabriel")
+    editObject("Documents")
 }
 
 
@@ -23,10 +24,12 @@ function autorun() {
 // -- Params : None
 // -- Purpose : creates the objects and values
 function setObject() {
-
+    var information = new Object();
     for (var i = 0; i < list_of_urls.length; i++) {
         if (getCurrentUrl().indexOf(list_of_urls[i]) != -1) {
-            objects[i] = "{domain:" + list_of_urls[i] + ", url:" + getCurrentUrl() + "}";
+            information.domain = list_of_urls[i];
+            information.url = getCurrentUrl();
+            objects[i] = information;
         }
     }
     return objects;
@@ -37,16 +40,13 @@ function setObject() {
 // -- Params : String and or object
 // -- Purpose : edit a object of value a domain
 function editObject(domain) {
-    console.log(Object.keys(objects).length);
-
     for (var i = 0; i < objects.length; i++) {
-        console.log(objects['domain']);
+        console.log(objects[1].domain);
         if (objects[i].domain === domain) {
-            objects[i].url = "ss";
+            objects[i].url = getCurrentUrl();
             break;
         }
     }
-    console.log(objects);
 }
 
 
