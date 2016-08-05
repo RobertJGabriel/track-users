@@ -1,6 +1,7 @@
 const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users", "engineroom.teamwork.com", "teamwork.com/blog"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
-const master_domain = "teamwork.com";
+const master_domain =  window.location.hostname === "" ? "teamwork.com": window.location.hostname;
+const localDevelment =  window.location.hostname === "" ? true: false;
 var objects = [];
 
 if (window.addEventListener) window.addEventListener("load", autorun, false);
@@ -13,16 +14,16 @@ else window.onload = autorun;
 // -- Purpose : Starts to create the cookie on loads
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
-
-    if (checkCookie("Teamwork")) {
+    delete_cookie(master_domain.replace(/\./g, ''));
+    if (checkCookie(master_domain.replace(/\./g, ''))) {
         console.log("Edit");
-        objects = string_to_object(decode(getCookie("Teamwork")));
+        objects = string_to_object(decode(getCookie(master_domain.replace(/\./g, ''))));
         editObject("Documents")
     } else {
         console.log("Create");
-        createCookie("Teamwork", btoa(textToJson(setObject())), 2,master_domain);
+        createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(setObject())), 2, master_domain);
     }
-    console.log(decode(getCookie("Teamwork")))
+    console.log(decode(getCookie(master_domain.replace(/\./g, ''))));
 }
 
 
@@ -70,7 +71,7 @@ function editObject(domain) {
         }
     }
     console.log(objects);
-    createCookie("Teamwork", btoa(textToJson(objects)), 2,master_domain);
+    createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(objects)), 2, master_domain);
 }
 
 // -- Function Name : string_to_object
@@ -99,11 +100,12 @@ function decode(data) {
 // -- Function Name : Create Cookie
 // -- Params : data / object
 // -- Purpose : Makes a string into json
-function createCookie(cname, cvalue, exdays,domain) {
+function createCookie(cname, cvalue, exdays, domain) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; expires=" + expires + ";domain=" + domain;
+
+    document.cookie =localDevelment?  cname + "=" + cvalue + "; expires=" + expires :cname + "=" + cvalue + "; expires=" + expires + ";domain=" + domain ;
     console.log("Created : " + cname + "with value " + cvalue);
 }
 
