@@ -1,7 +1,7 @@
-const list_of_urls = ["robertgabriel", "Documents", "www.teamwork.com", "Users", "engineroom.teamwork.com", "teamwork.com/blog"];
+const list_of_urls = ["Documents", "1.example.com", "2.example.com", "3.example.com"];
 const trigger_pages = [""]; //Add the urls for the pages to happen
-const master_domain =  window.location.hostname === "" ? "teamwork.com": window.location.hostname;
-const localDevelment =  window.location.hostname === "" ? true: false;
+const master_domain = ".example.com";// Change this to your domain
+const localDevelment =  window.location.hostname === "localhost" ? true: false;
 var objects = [];
 
 if (window.addEventListener) window.addEventListener("load", autorun, false);
@@ -14,14 +14,15 @@ else window.onload = autorun;
 // -- Purpose : Starts to create the cookie on loads
 // -- TODO : Set triggers for different pages. Example
 function autorun() {
-  ///  delete_cookie(master_domain.replace(/\./g, ''));
+
     if (checkCookie(master_domain.replace(/\./g, ''))) {
         localDevelment ? console.log("Edit"): null;
         objects = string_to_object(decode(getCookie(master_domain.replace(/\./g, ''))));
-        editObject("Documents")
+        delete_cookie(master_domain.replace(/\./g, ''));
+        editObject();
     } else {
       localDevelment ?   console.log("Create"):null;
-        createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(setObject())), 2, master_domain);
+      createCookie(master_domain.replace(/\./g, ''), btoa(textToJson(setObject())), 2, master_domain);
     }
   localDevelment ?   console.log(decode(getCookie(master_domain.replace(/\./g, '')))): null;
 }
@@ -65,7 +66,7 @@ function delete_cookie(name) {
 function editObject(domain) {
     for (var i = 0; i < objects.length; i++) {
       localDevelment ?   console.log(objects[1].domain) :null;
-        if (objects[i].domain === domain) {
+        if (regexUrlextensioncheck(objects[i].domain)) {
             objects[i].url = getCurrentUrl();
             break;
         }
@@ -105,7 +106,7 @@ function createCookie(cname, cvalue, exdays, domain) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
 
-    document.cookie =localDevelment?  cname + "=" + cvalue + "; expires=" + expires :cname + "=" + cvalue + "; expires=" + expires + ";domain=" + domain ;
+    document.cookie = localDevelment ?  cname + "=" + cvalue + "; expires=" + expires :   cname + "=" + cvalue + "; expires=" + expires + "; domain=.teamwork.com" ;
     localDevelment ? console.log("Created : " + cname + "with value " + cvalue) :null;
 }
 
