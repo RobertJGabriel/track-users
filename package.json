@@ -4,11 +4,9 @@
   "description": "Track users across different domains that you own",
   "main": "index.js",
   "scripts": {
-    "default": "xo --fix",
-    "xo": "xo",
-    "xo-fix": "xo --fix",
-    "deploy": "gulp deploy",
-    "test": "xo"
+
+    "default": "concurrently --kill-others \"gulp \" \" xo --fix\""
+
   },
   "repository": {
     "type": "git",
@@ -26,11 +24,23 @@
   },
   "homepage": "https://github.com/RobertJGabriel/track_users_across_domains#readme",
   "devDependencies": {
+    "concurrently": "^3.1.0",
     "gulp-xo": "^0.14.0",
     "xo": "^0.17.0"
   },
   "dependencies": {
     "gulp": "^3.9.1",
+    "gulp-coffee": "^2.3.2",
     "gulp-xo": "^0.14.0"
+  },
+  "xo": {
+    "envs": [
+      "browser"
+    ],
+    "ignore": [
+      "*",
+      "!dist/*"
+    ],
+    "esnext": true
   }
 }
