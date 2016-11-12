@@ -3,20 +3,6 @@
   "version": "1.0.0",
   "description": "Track users across different domains that you own",
   "main": "index.js",
-  "xo": {
-    "envs": [
-      "browser"
-    ],
-    "globals": [
-      "$",
-      "jQuery"
-    ],
-    "ignore": [
-      "*",
-      "js/vendor/*",
-      "!js/app/*"
-    ]
-  },
   "scripts": {
     "default": "xo --fix",
     "xo": "xo",
