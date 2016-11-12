@@ -7,7 +7,8 @@
     "default": "xo --fix",
     "xo": "xo",
     "xo-fix": "xo --fix",
-    "deploy": "gulp deploy"
+    "deploy": "gulp deploy",
+    "test": "xo"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   },
   "homepage": "https://github.com/RobertJGabriel/track_users_across_domains#readme",
   "devDependencies": {
-    "gulp-xo": "^0.14.0"
+    "gulp-xo": "^0.14.0",
+    "xo": "^0.17.0"
   },
   "dependencies": {
     "gulp": "^3.9.1",
