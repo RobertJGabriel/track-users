@@ -1,0 +1,24 @@
+{
+  "name": "track_users_across_domains",
+  "version": "1.0.0",
+  "description": "Track users across different domains that you own",
+  "main": "index.js",
+  "scripts": {
+    "test": "createCookie"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertJGabriel/track_users_across_domains.git"
+  },
+  "keywords": [
+    "tracking",
+    "cookies",
+    "node"
+  ],
+  "author": "Robert James Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RobertJGabriel/track_users_across_domains/issues"
+  },
+  "homepage": "https://github.com/RobertJGabriel/track_users_across_domains#readme"
+}
